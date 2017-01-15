@@ -76,7 +76,7 @@ public class SearchByFrames {
                 driver.switchTo().parentFrame();
             }
 
-            if (switchToFrame(frames.get(i))) {
+            if (switchToFrame(findFrames().get(i))) {
 
                 Optional<SelenideElement> result = lookElem();
                 if (result.isPresent()) {
@@ -102,12 +102,16 @@ public class SearchByFrames {
 
     private Optional<SelenideElement> lookElem() {
 
+        try {
             SelenideElement element = supplier.get();
-            if(element.is(Condition.exist)) {
+            if (element.is(Condition.exist)) {
                 return Optional.of(element);
             } else {
                 return Optional.empty();
             }
+        } catch (UIAssertionError error) {
+            return Optional.empty();
+        }
     }
 
     private boolean switchToFrame(SelenideElement selenideElement) {
@@ -132,11 +136,6 @@ public class SearchByFrames {
         } catch (UIAssertionError error) {
             return new ArrayList<>();
         }
-//       return currentFrame.$$(By.tagName("iframe"));
-//        List<WebElement> frames = currentFrame.findElements(By.tagName("iframe"));
-//        return frames.stream().map(Selenide::$)
-//                .peek(WebElement::getSize)
-//                .collect(Collectors.toList());
     }
 
     private void switchToTop() {

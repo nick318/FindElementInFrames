@@ -1,9 +1,11 @@
 
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
+import com.codeborne.selenide.ex.UIAssertionError;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -84,6 +86,19 @@ public class SearchFramesTest {
         } else {
             assertTrue("Optional was empty, but should not be", elem.isPresent());
         }
+
+    }
+
+    @Test
+    public void searchShouldBeDoneBySupplierWhichThrowsException() throws Exception {
+
+        SearchByFrames searchInFrame = SearchByFrames.of(() -> {
+            throw new UIAssertionError(new NotFoundException());
+        });
+        Optional<SelenideElement> elem = searchInFrame.getElem();
+        assertFalse("Optional was not empty, but should be", elem.isPresent());
+
+        assertTrue($(By.xpath(".//iframe[@name='1']")).is(exist));
 
     }
 
