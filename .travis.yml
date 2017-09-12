@@ -21,6 +21,5 @@ before_install:
  - sudo dpkg -i google-chrome*.deb
 
 after_success:
-- ./gradle jacocoTestReport coveralls
 - bash <(curl -s https://codecov.io/bash)
 
