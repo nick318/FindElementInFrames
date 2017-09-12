@@ -1,20 +1,22 @@
-
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.ex.UIAssertionError;
+import io.github.bonigarcia.wdm.ChromeDriverManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NotFoundException;
 import org.openqa.selenium.WebDriver;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.exist;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.switchTo;
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -30,6 +32,8 @@ public class SearchFramesTest {
     @Before
     public void setUp() throws Exception {
         Path sampleFile = Paths.get("src/test/resources/html/0001.html");
+        ChromeDriverManager.getInstance().setup();
+        Configuration.browser = "chrome";
         WebDriverRunner.getWebDriver().get(sampleFile.toUri().toString());
         this.driver = WebDriverRunner.getWebDriver();
 
@@ -147,5 +151,25 @@ public class SearchFramesTest {
         } else {
             assertTrue("Optional was empty, but should not be", elem.isPresent());
         }
+    }
+
+    @Test
+    public void ifElementWasNotFoundTheFrameShouldBeParent() throws Exception {
+
+        By iframe = By.tagName("iframe");
+        switchTo().defaultContent();
+        switchTo().frame($(By.xpath(".//iframe[@name='1']")));
+        switchTo().frame($(iframe));
+        switchTo().frame($(iframe));
+
+        assumeTrue($(By.xpath(".//input[@name='firstname_child_2']")).is(exist));
+
+        SearchByFrames searchInFrame = SearchByFrames.of(By.xpath(".//input[@name='not exist']"));
+        Optional<SelenideElement> elem = searchInFrame.getElem();
+
+        System.out.println(elem.toString());
+
+        assertTrue($(By.xpath(".//input[@name='main']")).is(exist));
+
     }
 }
