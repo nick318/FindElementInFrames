@@ -1,11 +1,13 @@
-import com.codeborne.selenide.*;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.ex.UIAssertionError;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.FluentWait;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -43,13 +45,9 @@ public class SearchByFrames {
         long savedTimeout = Configuration.timeout;
         long savedCollectionTimeout = Configuration.collectionsTimeout;
         try {
-
             Configuration.timeout = 200;
             Configuration.collectionsTimeout = 200;
-
             return findElementByFrames();
-        } catch (UIAssertionError error) {
-            return Optional.empty();
         } finally {
             Configuration.timeout = savedTimeout;
             Configuration.collectionsTimeout = savedCollectionTimeout;
@@ -61,7 +59,7 @@ public class SearchByFrames {
         switchToTop();
         List<SelenideElement> frames = findFrames();
 
-        if (isPresent(frames)) {
+        if (!frames.isEmpty()) {
             return lookThroughFrames(frames);
         } else {
             return Optional.empty();
@@ -83,7 +81,7 @@ public class SearchByFrames {
                     return result;
                 } else {
                     List<SelenideElement> childFrames = findFrames();
-                    if (isPresent(childFrames)) {
+                    if (!childFrames.isEmpty()) {
                         Optional<SelenideElement> selenideElement = lookThroughFrames(childFrames);
                         if (selenideElement.isPresent()) {
                              return selenideElement;
@@ -126,16 +124,8 @@ public class SearchByFrames {
         }
     }
 
-    private boolean isPresent(List<SelenideElement> frames) {
-        return frames.size() > 0;
-    }
-
     private List<SelenideElement> findFrames() {
-        try {
-           return  $$(driver.findElements(By.tagName("iframe")));
-        } catch (UIAssertionError error) {
-            return new ArrayList<>();
-        }
+        return  $$(driver.findElements(By.tagName("iframe")));
     }
 
     private void switchToTop() {

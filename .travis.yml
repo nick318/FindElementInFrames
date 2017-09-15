@@ -6,7 +6,7 @@ language: java
 sudo: true
 dist: trusty
 
-script: "./mvnw clean test package"
+script: "./mvnw clean jacoco:prepare-agent install"
 
 jdk:
   - oraclejdk8
@@ -23,6 +23,6 @@ before_install:
  - sudo dpkg -i google-chrome*.deb
 
 after_success:
-- mvn clean test jacoco:report coveralls:report
+- mvn jacoco:report coveralls:report
 - bash <(curl -s https://codecov.io/bash)
 

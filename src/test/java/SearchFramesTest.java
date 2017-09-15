@@ -3,14 +3,15 @@ import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.ex.UIAssertionError;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NotFoundException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -21,13 +22,16 @@ import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by Cok on 13.01.2017.
  */
 public class SearchFramesTest {
 
-    private WebDriver driver;
+    private WebDriver chromeDriver;
+    private WebDriver mockDriver;
 
     @Before
     public void setUp() throws Exception {
@@ -35,8 +39,12 @@ public class SearchFramesTest {
         ChromeDriverManager.getInstance().setup();
         Configuration.browser = "chrome";
         WebDriverRunner.getWebDriver().get(sampleFile.toUri().toString());
-        this.driver = WebDriverRunner.getWebDriver();
+        this.chromeDriver = WebDriverRunner.getWebDriver();
+    }
 
+    @After
+    public void tearDown() throws Exception {
+        WebDriverRunner.setWebDriver(chromeDriver);
     }
 
     @Test
@@ -170,6 +178,37 @@ public class SearchFramesTest {
         System.out.println(elem.toString());
 
         assertTrue($(By.xpath(".//input[@name='main']")).is(exist));
+    }
 
+    @Test
+    public void returnEmptyOptionWhenNoFramesAtAll() throws Exception {
+
+        Path sampleFile = Paths.get("src/test/resources/html/page_without_frames.html");
+        WebDriverRunner.getWebDriver().get(sampleFile.toUri().toString());
+
+        By locator = By.xpath(".//input[@name='firstname']");
+        SearchByFrames searchInFrame = SearchByFrames.of(locator);
+        Optional<SelenideElement> elem = searchInFrame.getElem();
+        assertFalse("There is no frames, optional should be empty!", elem.isPresent());
+    }
+
+    @Test
+    public void whenFrameDisappearByAjaxReturnEmptyOptional() throws Exception {
+        mockDriver = mock(WebDriver.class);
+        WebDriver.TargetLocator mockTargetLocator = mock(WebDriver.TargetLocator.class);
+        WebElement frame = mock(WebElement.class);
+        List<WebElement> frames = Collections.singletonList(frame);
+
+        when(mockDriver.switchTo()).thenReturn(mockTargetLocator);
+        when(mockDriver.switchTo().frame(frame)).thenThrow(NoSuchFrameException.class);
+        when(mockDriver.switchTo().parentFrame()).thenReturn(mockDriver);
+        when(mockDriver.findElements(any(By.class))).thenReturn(frames);
+        WebDriverRunner.setWebDriver(mockDriver);
+
+        By locator = By.xpath(".//input[@name='firstname']");
+        SearchByFrames searchInFrame = SearchByFrames.of(locator);
+        Optional<SelenideElement> elem = searchInFrame.getElem();
+        assertFalse("There is no frames, optional should be empty!", elem.isPresent());
+        verify(mockDriver.switchTo());
     }
 }

@@ -6,7 +6,7 @@
 
     <groupId>com.icok.findelement</groupId>
     <artifactId>findelement</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <packaging>jar</packaging>
 
     <name>Find element in frames</name>
@@ -81,6 +81,15 @@
             <version>1.7.1</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
+        </dependency>
+
+
     </dependencies>
 
     <build>
@@ -90,15 +99,21 @@
                     <groupId>org.eluder.coveralls</groupId>
                     <artifactId>coveralls-maven-plugin</artifactId>
                     <version>4.3.0</version>
+                    <configuration>
+                        <jacocoReports>
+                            <jacocoReport>${basedir}/target/site/jacoco/jacoco.xml</jacocoReport>
+                        </jacocoReports>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>0.7.9</version>
+
                     <configuration>
-                        <destfile>${basedir}/target/coverage-reports/jacoco-unit.exec</destfile>
-                        <datafile>${basedir}/target/coverage-reports/jacoco-unit.exec</datafile>
-                    </configuration>
+                        <destFile>${basedir}/target/coverage-reports/test.exec</destFile>
+                        <dataFile>${basedir}/target/coverage-reports/test.exec</dataFile>
+                        </configuration>
                     <executions>
                         <execution>
                             <id>jacoco-initialize</id>
@@ -203,6 +218,22 @@
                         </configuration>
                         <reports>
                             <report>aggregate</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <destFile>${basedir}/target/coverage-reports/test.exec</destFile>
+                    <dataFile>${basedir}/target/coverage-reports/test.exec</dataFile>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <!-- select non-aggregate reports -->
+                            <report>report</report>
                         </reports>
                     </reportSet>
                 </reportSets>
