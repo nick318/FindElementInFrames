@@ -6,7 +6,7 @@ language: java
 sudo: true
 dist: trusty
 
-script: "./mvnw clean test"
+script: "./mvnw clean test package"
 
 jdk:
   - oraclejdk8
