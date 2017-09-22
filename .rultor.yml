@@ -1,9 +1,9 @@
 decrypt:
-  settings.xml: "frames/settings.xml.asc"
-  pubring.gpg: "frames/pubring.gpg.asc"
-  secring.gpg: "frames/secring.gpg.asc"
+  settings.xml: "repo/settings.xml.asc"
+  pubring.gpg: "repo/pubring.gpg.asc"
+  secring.gpg: "repo/secring.gpg.asc"
 release:
   script: |
     mvn versions:set "-DnewVersion=${tag}"
     git commit -am "${tag}"
-    mvn clean deploy -Pjcabi --settings ./settings.xml
+    mvn clean deploy -Pjcabi --settings /home/r/settings.xml
