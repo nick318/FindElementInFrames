@@ -5,5 +5,5 @@ decrypt:
 release:
   script: |
     mvn versions:set "-DnewVersion=${tag}"
-    git tag -am "${tag}"
+    git tag -a "${tag}" -m "${tag}"
     mvn clean deploy -Pjcabi --settings /home/r/settings.xml
