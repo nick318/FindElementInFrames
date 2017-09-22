@@ -195,6 +195,7 @@ public class SearchFramesTest {
     @Test
     @SuppressWarnings("unchecked")
     public void whenFrameDisappearByAjaxReturnEmptyOptional() throws Exception {
+        //changes
         mockDriver = mock(WebDriver.class);
         WebDriver.TargetLocator mockTargetLocator = mock(WebDriver.TargetLocator.class);
         WebElement frame = mock(WebElement.class);
