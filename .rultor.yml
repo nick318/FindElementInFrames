@@ -7,6 +7,7 @@ decrypt:
   secring.gpg: "repo/secring.gpg.asc"
 release:
   script: |
+    apt-get install git
     mvn versions:set "-DnewVersion=${tag}"
     git tag -a "${tag}" -m "${tag}"
     mvn clean deploy -Psign-artifacts -Psonatype --settings /home/r/settings.xml
