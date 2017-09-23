@@ -1,6 +1,6 @@
 docker:
   as_root: true
-  image: jamesdbloom/docker-java8-maven
+  image: andreptb/maven:3.3.9-jdk8
 decrypt:
   settings.xml: "repo/settings.xml.asc"
   pubring.gpg: "repo/pubring.gpg.asc"
