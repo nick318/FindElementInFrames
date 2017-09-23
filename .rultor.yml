@@ -1,6 +1,6 @@
 docker:
   as_root: true
-  image: arwineap/maven-jdk8-phantomjs
+  image: mihirpatel/gitlab-runner-jdk8-maven
 decrypt:
   settings.xml: "repo/settings.xml.asc"
   pubring.gpg: "repo/pubring.gpg.asc"
