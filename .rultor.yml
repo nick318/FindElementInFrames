@@ -7,7 +7,8 @@ decrypt:
   secring.gpg: "repo/secring.gpg.asc"
 release:
   script: |
-    chmod 777 ./mvnw
+    chmod +x ./mvnw
+    mvn -N io.takari:maven:wrapper
     ./mvnw clean
     mvn versions:set "-DnewVersion=${tag}"
     git tag -a "${tag}" -m "${tag}"
