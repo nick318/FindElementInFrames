@@ -33,7 +33,7 @@
         <connection>scm:git:git://github.com/iCok/FindElementInFrames</connection>
         <developerConnection>scm:git:ssh://github.com/iCok/FindElementInFrames</developerConnection>
         <url>https://github.com/iCok/FindElementInFrames</url>
-      <tag>1.2</tag>
+        <tag>1.2</tag>
   </scm>
 
     <developers>
