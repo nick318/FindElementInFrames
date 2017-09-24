@@ -6,21 +6,30 @@ language: java
 sudo: true
 dist: trusty
 
-script: "./mvnw clean jacoco:prepare-agent install"
-
 jdk:
   - oraclejdk8
 
-before_install:
- - chmod +x ./mvnw
- - mvn -N io.takari:maven:wrapper
- - export CHROME_BIN=/usr/bin/google-chrome
- - export DISPLAY=:99.0 
- - sh -e /etc/init.d/xvfb start
- - sudo apt-get update
- - sudo apt-get install -y libappindicator1 fonts-liberation
- - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
- - sudo dpkg -i google-chrome*.deb
+install:
+ # Add repos
+ - sudo apt-add-repository "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
+ # Remove "deb-src" repos added from apt-add-repository, because it doesn't exist online
+ - sudo sed -i s/deb-src.*google.*//g /etc/apt/sources.list
+ # Add apt-keys for checking the packages
+ - wget -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+ # Update
+ - sudo apt-get update -qq
+ # Install the browsers
+ - sudo apt-get install -y google-chrome-stable
+
+ before_script:
+     # start xvfb
+     - "export DISPLAY=:99.0"
+     - "sh -e /etc/init.d/xvfb start"
+     - sleep 3 # give xvfb some time to start
+     - chmod +x ./mvnw
+     - mvn -N io.takari:maven:wrapper
+
+script: "./mvnw clean jacoco:prepare-agent install"
 
 after_success:
 - mvn jacoco:report coveralls:report

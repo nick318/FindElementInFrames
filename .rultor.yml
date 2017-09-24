@@ -17,7 +17,6 @@ release:
             sudo dpkg -i google-chrome*.deb
             mvn clean verify
             git checkout master
-            mvn versions:set "-DnewVersion=${newSnapshotVersion}"
             git commit -am "prepare next version"
             git checkout __rultor
             mvn versions:set "-DnewVersion=${tag}"
