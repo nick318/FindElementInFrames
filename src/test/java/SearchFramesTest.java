@@ -4,6 +4,7 @@ import com.codeborne.selenide.ex.UIAssertionError;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -28,6 +29,7 @@ import static org.mockito.Mockito.*;
 /**
  * Created by Cok on 13.01.2017.
  */
+@Ignore
 public class SearchFramesTest {
 
     private WebDriver chromeDriver;
