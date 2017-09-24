@@ -1,4 +1,3 @@
-import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.ex.UIAssertionError;
@@ -7,6 +6,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,7 +39,7 @@ public class SearchFramesTest {
         if (!System.getProperty("os.name", "linux").startsWith("Windows")) {
             ChromeDriverManager.getInstance().version("2.9").setup();
         }
-        Configuration.browser = "chrome";
+        WebDriverRunner.setWebDriver(new ChromeDriver());
         this.chromeDriver = WebDriverRunner.getWebDriver();
         WebDriverRunner.getWebDriver().get(sampleFile.toUri().toString());
     }
