@@ -1,13 +1,11 @@
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.WebDriverRunner;
 import com.codeborne.selenide.ex.UIAssertionError;
-import io.github.bonigarcia.wdm.ChromeDriverManager;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,7 +27,6 @@ import static org.mockito.Mockito.*;
 /**
  * Created by Cok on 13.01.2017.
  */
-@Ignore
 public class SearchFramesTest {
 
     private WebDriver chromeDriver;
@@ -38,10 +35,7 @@ public class SearchFramesTest {
     @Before
     public void setUp() throws Exception {
         Path sampleFile = Paths.get("src/test/resources/html/0001.html");
-        if (!System.getProperty("os.name", "linux").startsWith("Windows")) {
-            ChromeDriverManager.getInstance().version("2.9").setup();
-        }
-        WebDriverRunner.setWebDriver(new ChromeDriver());
+        Configuration.browser = "chrome";
         this.chromeDriver = WebDriverRunner.getWebDriver();
         WebDriverRunner.getWebDriver().get(sampleFile.toUri().toString());
     }
