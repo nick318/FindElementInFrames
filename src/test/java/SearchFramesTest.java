@@ -36,9 +36,7 @@ public class SearchFramesTest {
     @Before
     public void setUp() throws Exception {
         Path sampleFile = Paths.get("src/test/resources/html/0001.html");
-        if (!System.getProperty("os.name", "linux").startsWith("Windows")) {
-            ChromeDriverManager.getInstance().version("2.24").setup();
-        } else {
+        if (System.getProperty("os.name", "linux").startsWith("Windows")) {
             ChromeDriverManager.getInstance().setup();
         }
         Configuration.browser = "chrome";
