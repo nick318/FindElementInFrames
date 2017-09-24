@@ -12,16 +12,10 @@
     <name>Find element in frames</name>
     <description>Util class for searching element through frames</description>
 
-    <!--<parent>-->
-        <!--<groupId>org.sonatype.oss</groupId>-->
-        <!--<artifactId>oss-parent</artifactId>-->
-        <!--<version>7</version>-->
-    <!--</parent>-->
-
     <parent>
-            <groupId>com.jcabi</groupId>
-            <artifactId>parent</artifactId>
-            <version>0.49.1</version>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
     </parent>
 
     <licenses>
