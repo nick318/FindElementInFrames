@@ -7,7 +7,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -38,8 +41,20 @@ public class SearchFramesTest {
         Path sampleFile = Paths.get("src/test/resources/html/0001.html");
         ChromeDriverManager.getInstance().setup();
         Configuration.browser = "chrome";
-        WebDriverRunner.getWebDriver().get(sampleFile.toUri().toString());
         this.chromeDriver = WebDriverRunner.getWebDriver();
+
+
+        if (!System.getProperty("os.name", "linux").startsWith("Windows")) {
+            ChromeDriverService service = new ChromeDriverService.Builder()
+                    .usingDriverExecutable(new File("usr/local/bin/chromedriver"))
+                    .usingAnyFreePort()
+                    .build();
+            service.start();
+            chromeDriver = new ChromeDriver(service);
+            WebDriverRunner.setWebDriver(chromeDriver);
+        }
+
+        WebDriverRunner.getWebDriver().get(sampleFile.toUri().toString());     
     }
 
     @After
