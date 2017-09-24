@@ -11,7 +11,9 @@ script: "./mvnw clean jacoco:prepare-agent install"
 jdk:
   - oraclejdk8
 
-before_install:  
+before_install:
+ - chmod +x ./install-chrome-on-linux.sh
+ - install-chrome-on-linux.sh
  - chmod +x ./mvnw
  - mvn -N io.takari:maven:wrapper
  - export CHROME_BIN=/usr/bin/google-chrome
