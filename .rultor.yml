@@ -1,6 +1,6 @@
 docker:
   as_root: true
-  image: douglaslice/jdk8-maven-git
+  image: paasmule/java-maven-git-alpine
 decrypt:
   settings.xml: "repo/settings.xml.asc"
   pubring.gpg: "repo/pubring.gpg.asc"
