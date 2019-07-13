@@ -1,10 +1,10 @@
 = FindElementInFrames
 :toc: left
 
-image:https://travis-ci.org/iCok/FindElementInFrames.svg?branch=master["Build Status", link="https://travis-ci.org/iCok/FindElementInFrames"]
+image:https://travis-ci.org/nick318/FindElementInFrames.svg?branch=master["Build Status", link="https://travis-ci.org/nick318/FindElementInFrames"]
 
 
-image:https://coveralls.io/repos/github/iCok/FindElementInFrames/badge.svg?branch=master["Coverage Status", link="https://coveralls.io/github/iCok/FindElementInFrames?branch=master"]
+image:https://coveralls.io/repos/github/nick318/FindElementInFrames/badge.svg?branch=master["Coverage Status", link="https://coveralls.io/github/nick318/FindElementInFrames?branch=master"]
 
 image:http://img.shields.io/badge/license-MIT-green.svg["MIT License", link="https://github.com/icok/findelementinframes/blob/master/LICENSE"]image:https://img.shields.io/badge/free-open--source-green.svg["Free"]
 
@@ -14,9 +14,9 @@ Dependency:
 [source,xml]
 ----
 <dependency>
-  <groupId>com.github.icok.findelement</groupId>
+  <groupId>com.github.nick318.findelement</groupId>
   <artifactId>findelement</artifactId>
-  <version>1.2.3-SNAPSHOT</version>
+  <version>1.3.0</version>
 </dependency>
 ----
 
@@ -24,15 +24,19 @@ Examples:
 
 [source,java]
 ----
-SearchByFrames searchInFrame = SearchByFrames.of(locator);
-Optional<SelenideElement> elem = searchInFrame.getElem();
-elem.ifPresent(SelenideElement::click);
+//setup once
+SearchByFramesFactory searchFactory = new SearchByFramesFactory(driver);
 
-SearchByFrames searchInFrame = SearchByFrames.of(() -> $(By.tagName("body")).$(locator));
-Optional<SelenideElement> elem = searchInFrame.getElem();
+//use in different places
+SearchByFrames searchInFrame = searchFactory.search(locator);
+Optional<WebElement> elem = searchInFrame.getElem();
+elem.ifPresent(WebElement::click);
+
+SearchByFrames searchInFrame = searchFactory.search(() -> driver.findElement(By.tagName("body")));
+Optional<WebElement> elem = searchInFrame.getElem();
 ----
 
-As you may noticed you can put a supplier of Selenide Element as a constructor parameter, 
+As you may noticed you can put a Supplier of WebElement as a constructor parameter,
 it will be invoked during search in frames.
 
 All synchronization logic should not be placed here, it is responsibility of user.
