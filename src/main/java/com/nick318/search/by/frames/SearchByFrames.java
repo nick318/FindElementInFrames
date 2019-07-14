@@ -29,6 +29,7 @@ public class SearchByFrames {
     static SearchByFrames of(By locator, WebDriver driver) {
         return new SearchByFrames(locator, driver);
     }
+
     static SearchByFrames of(Supplier<WebElement> supplier, WebDriver driver) {
         return new SearchByFrames(supplier, driver);
     }
@@ -49,7 +50,6 @@ public class SearchByFrames {
     private Optional<WebElement> findElementByFrames() {
         switchToTop();
         List<WebElement> frames = findFrames();
-
         if (!frames.isEmpty()) {
             return lookThroughFrames(frames);
         } else {
@@ -62,17 +62,17 @@ public class SearchByFrames {
             if (i != 0) {
                 driver.switchTo().parentFrame();
             }
-            if (switchToFrame(findFrames().get(i))) {
+            if (switchedToFrame(findFrames().get(i))) {
                 Optional<WebElement> result = lookElem();
                 if (result.isPresent()) {
                     return result;
                 } else {
                     List<WebElement> childFrames = findFrames();
                     if (!childFrames.isEmpty()) {
-                        Optional<WebElement> WebElement = lookThroughFrames(childFrames);
-                        if (WebElement.isPresent()) {
-                             return WebElement;
-                         }
+                        Optional<WebElement> webElement = lookThroughFrames(childFrames);
+                        if (webElement.isPresent()) {
+                            return webElement;
+                        }
                     }
                 }
             } else {
@@ -88,27 +88,22 @@ public class SearchByFrames {
     private Optional<WebElement> lookElem() {
         try {
             WebElement element = supplier.get();
-            if (isExist(element)) {
-                return Optional.of(element);
-            } else {
-                return Optional.empty();
-            }
+            return isExist(element);
         } catch (NoSuchElementException error) {
             return Optional.empty();
         }
     }
 
-    private boolean isExist(WebElement element) {
+    private Optional<WebElement> isExist(WebElement element) {
         try {
             element.isDisplayed();
-            return true;
-        }
-        catch (StaleElementReferenceException e) {
-            return false;
+            return Optional.of(element);
+        } catch (StaleElementReferenceException e) {
+            return Optional.empty();
         }
     }
 
-    private boolean switchToFrame(WebElement WebElement) {
+    private boolean switchedToFrame(WebElement WebElement) {
         try {
             new FluentWait<>(driver)
                     .withTimeout(300, TimeUnit.MILLISECONDS)
@@ -121,7 +116,7 @@ public class SearchByFrames {
     }
 
     private List<WebElement> findFrames() {
-        return  driver.findElements(By.tagName("iframe"));
+        return driver.findElements(By.tagName("iframe"));
     }
 
     private void switchToTop() {
