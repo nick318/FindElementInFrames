@@ -36,7 +36,7 @@ SearchByFrames searchInFrame = searchFactory.search(() -> driver.findElement(By.
 Optional<WebElement> elem = searchInFrame.getElem();
 ----
 
-This library can be used with <b>Selenide</b>. All you need to do is to write a wrapper. Look for details in `SelenideExamples.java`
+This library can be used with `Selenide`. All you need to do is to write a wrapper. Look for details in `SelenideExamples.java`
 
 As you may noticed you can put a Supplier of WebElement as a constructor parameter,
 it will be invoked during search in frames.
