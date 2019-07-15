@@ -6,7 +6,7 @@ image:https://travis-ci.org/nick318/FindElementInFrames.svg?branch=master["Build
 
 image:https://coveralls.io/repos/github/nick318/FindElementInFrames/badge.svg?branch=master["Coverage Status", link="https://coveralls.io/github/nick318/FindElementInFrames?branch=master"]
 
-image:http://img.shields.io/badge/license-MIT-green.svg["MIT License", link="https://github.com/icok/findelementinframes/blob/master/LICENSE"]image:https://img.shields.io/badge/free-open--source-green.svg["Free"]
+image:http://img.shields.io/badge/license-MIT-green.svg["MIT License", link="https://github.com/nick318/findelementinframes/blob/master/LICENSE"]image:https://img.shields.io/badge/free-open--source-green.svg["Free"]
 
 Helper can find an element through all frames that represent on page
 
@@ -35,6 +35,8 @@ elem.ifPresent(WebElement::click);
 SearchByFrames searchInFrame = searchFactory.search(() -> driver.findElement(By.tagName("body")));
 Optional<WebElement> elem = searchInFrame.getElem();
 ----
+
+This library can be used with <b>Selenide</b>. All you need to do is to write a wrapper. Look for details in `SelenideExamples.java`
 
 As you may noticed you can put a Supplier of WebElement as a constructor parameter,
 it will be invoked during search in frames.
