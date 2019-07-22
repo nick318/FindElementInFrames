@@ -16,7 +16,7 @@ Dependency:
 <dependency>
   <groupId>com.github.nick318.findelement</groupId>
   <artifactId>findelement</artifactId>
-  <version>1.3.0</version>
+  <version>1.4.0</version>
 </dependency>
 ----
 
