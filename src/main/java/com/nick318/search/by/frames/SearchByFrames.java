@@ -13,11 +13,6 @@ import org.openqa.selenium.support.ui.FluentWait;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 /**
@@ -29,24 +24,22 @@ import java.util.function.Supplier;
 public class SearchByFrames {
     private final WebDriver driver;
     private final Supplier<WebElement> supplier;
-    private final Duration timeout;
 
-    static SearchByFrames of(By locator, WebDriver driver, Duration timeout) {
-        return new SearchByFrames(locator, driver, timeout);
+    static SearchByFrames of(By locator, WebDriver driver) {
+        return new SearchByFrames(locator, driver);
     }
 
-    static SearchByFrames of(Supplier<WebElement> supplier, WebDriver driver, Duration timeout) {
-        return new SearchByFrames(supplier, driver, timeout);
+    static SearchByFrames of(Supplier<WebElement> supplier, WebDriver driver) {
+        return new SearchByFrames(supplier, driver);
     }
 
-    private SearchByFrames(By locator, WebDriver driver, Duration timeout) {
-        this(() -> driver.findElement(locator), driver, timeout);
+    private SearchByFrames(By locator, WebDriver driver) {
+        this(() -> driver.findElement(locator), driver);
     }
 
-    private SearchByFrames(Supplier<WebElement> supplier, WebDriver driver, Duration timeout) {
+    private SearchByFrames(Supplier<WebElement> supplier, WebDriver driver) {
         this.driver = driver;
         this.supplier = supplier;
-        this.timeout = timeout;
     }
 
     /**
@@ -105,26 +98,16 @@ public class SearchByFrames {
         try {
             WebElement element = supplier.get();
             return isExist(element);
-        } catch (NoSuchElementException error) {
+        } catch (StaleElementReferenceException | NoSuchElementException | AssertionError e) {
             return Optional.empty();
         }
     }
 
     private Optional<WebElement> isExist(WebElement element) {
         try {
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            final Future<Boolean> handler = executor.submit(element::isEnabled);
-
-            try {
-                handler.get(timeout.toMillis(), TimeUnit.MILLISECONDS);
-            } catch (ExecutionException | java.util.concurrent.TimeoutException | InterruptedException e) {
-                handler.cancel(true);
-                return Optional.empty();
-            } finally {
-                executor.shutdownNow();
-            }
+            element.isEnabled();
             return Optional.of(element);
-        } catch (StaleElementReferenceException e) {
+        } catch (StaleElementReferenceException | NoSuchElementException | AssertionError e) {
             return Optional.empty();
         }
     }

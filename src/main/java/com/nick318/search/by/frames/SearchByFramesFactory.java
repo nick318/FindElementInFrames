@@ -16,12 +16,10 @@ import java.util.function.Supplier;
  */
 public class SearchByFramesFactory {
     private final WebDriver driver;
-    private Duration timeout;
 
     public SearchByFramesFactory(WebDriver driver) {
         Objects.requireNonNull(driver);
         this.driver = driver;
-        this.timeout = Duration.ofMillis(100);
     }
 
     /**
@@ -35,14 +33,13 @@ public class SearchByFramesFactory {
         Objects.requireNonNull(driver);
         Objects.requireNonNull(timeout);
         this.driver = driver;
-        this.timeout = timeout;
     }
 
     public SearchByFrames search(By locator) {
-        return SearchByFrames.of(locator, driver, timeout);
+        return SearchByFrames.of(locator, driver);
     }
 
     public SearchByFrames search(Supplier<WebElement> elementSupplier) {
-        return SearchByFrames.of(elementSupplier, driver, timeout);
+        return SearchByFrames.of(elementSupplier, driver);
     }
 }

@@ -22,7 +22,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -163,7 +162,7 @@ public class SearchFramesTest {
         when(mockDriver.findElements(any(By.class))).thenReturn(frames);
 
         By locator = By.xpath(".//input[@name='firstname']");
-        SearchByFrames searchInFrame = SearchByFrames.of(locator, mockDriver, Duration.ofMillis(100));
+        SearchByFrames searchInFrame = SearchByFrames.of(locator, mockDriver);
         Optional<WebElement> elem = searchInFrame.getElem();
         assertFalse("There is no frames, optional should be empty!", elem.isPresent());
         verify(mockDriver.switchTo());
