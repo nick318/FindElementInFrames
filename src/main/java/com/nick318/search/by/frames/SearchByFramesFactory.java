@@ -35,10 +35,20 @@ public class SearchByFramesFactory {
         this.driver = driver;
     }
 
+    /**
+     * Factory method
+     * @param locator by
+     * @return instance of SearchByFrames
+     */
     public SearchByFrames search(By locator) {
         return SearchByFrames.of(locator, driver);
     }
 
+    /**
+     * Factory method
+     * @param elementSupplier supplier
+     * @return instance of SearchByFrames
+     */
     public SearchByFrames search(Supplier<WebElement> elementSupplier) {
         return SearchByFrames.of(elementSupplier, driver);
     }
