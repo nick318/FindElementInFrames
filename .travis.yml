@@ -7,7 +7,7 @@ sudo: true
 dist: trusty
 
 jdk:
-  - oraclejdk8
+  - openjdk8
 
 install:
  # Add repos
