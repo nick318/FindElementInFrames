@@ -33,7 +33,7 @@ jobs:
         # Install the browsers
         sudo apt-get install -y google-chrome-stable
     - name: Run tests
-      run: mvn clean jacoco:prepare-agent install
+      run: mvn clean jacoco:prepare-agent test
     - name: Publish results
       run: |
         mvn jacoco:report coveralls:report
