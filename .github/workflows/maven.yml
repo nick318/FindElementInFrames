@@ -36,5 +36,5 @@ jobs:
       run: mvn clean jacoco:prepare-agent test
     - name: Publish results
       run: |
-        mvn jacoco:report coveralls:report -Dcoveralls.token=${{secret.COVERALLS_TOKEN}}
+        mvn jacoco:report coveralls:report -Dcoveralls.token=${{secrets.COVERALLS_TOKEN}}
         bash <(curl -s https://codecov.io/bash)
