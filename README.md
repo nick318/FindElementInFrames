@@ -1,6 +1,6 @@
 # FindElementInFrames
 
-[![Build Status](https://travis-ci.org/nick318/FindElementInFrames.svg?branch=master)](https://travis-ci.org/nick318/FindElementInFrames)
+[![Run tests Actions Status](https://github.com/nick318/FindElementInFrames/workflows/run-tests/badge.svg)](https://github.com/nick318/FindElementInFrames/actions)
 
 
 Helper can find an element through all frames that represent on page
