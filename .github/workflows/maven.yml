@@ -32,12 +32,6 @@ jobs:
         sudo apt-get update -qq
         # Install the browsers
         sudo apt-get install -y google-chrome-stable
-    - name: start xvfb
-      run: |
-         export DISPLAY=:99.0
-         sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
-         sleep 3 # give xvfb some time to start
-         chmod +x ./mvnw
     - name: Run tests
       run: mvn clean jacoco:prepare-agent install
     - name: Publish results

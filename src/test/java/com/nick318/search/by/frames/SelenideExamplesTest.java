@@ -51,6 +51,7 @@ public class SelenideExamplesTest {
     @Before
     public void openTestPageAndSetDriver() {
         Path sampleFile = Paths.get("src/test/resources/html/0001.html");
+        Configuration.headless = true;
         SelenideDriver selenideDriver = new SelenideDriver(
                 new SelenideConfig().browser(Configuration.browser),
                 new StaticDriver()
