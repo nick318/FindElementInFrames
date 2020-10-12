@@ -20,7 +20,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: setup-chromedriver
-      uses: nanasess/setup-chromedriver@v1.0.1
+    - name: GitHub Action for NPM/Chrome
+      uses: daleobrien/npm-with-chrome-browser-action@v1.0.1
     - name: Build with Maven
       run: mvn -B package --file pom.xml
