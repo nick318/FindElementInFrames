@@ -1,7 +1,7 @@
 = FindElementInFrames
 :toc: left
 
-image:https://travis-ci.org/nick318/FindElementInFrames.svg?branch=master["Build Status", link="https://travis-ci.org/nick318/FindElementInFrames"]
+image:https://github.com/nick318/FindElementInFrames/workflows/run-tests/badge.svg["Run tests status", link="https://github.com/nick318/FindElementInFrames/actions"]
 
 
 image:https://coveralls.io/repos/github/nick318/FindElementInFrames/badge.svg?branch=master["Coverage Status", link="https://coveralls.io/github/nick318/FindElementInFrames?branch=master"]
