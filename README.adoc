@@ -11,13 +11,20 @@ image:http://img.shields.io/badge/license-MIT-green.svg["MIT License", link="htt
 Helper can find an element through all frames that represent on page
 
 Dependency:
+Maven
 [source,xml]
 ----
 <dependency>
-  <groupId>com.github.nick318.findelement</groupId>
+  <groupId>com.github.nick318</groupId>
   <artifactId>findelement</artifactId>
-  <version>1.4.0</version>
+  <version>2.0</version>
 </dependency>
+----
+
+Gradle
+[source,xml]
+----
+implementation 'com.github.nick318:findelement:2.0'
 ----
 
 Examples:
