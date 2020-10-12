@@ -140,6 +140,7 @@
                     <artifactId>coveralls-maven-plugin</artifactId>
                     <version>4.3.0</version>
                     <configuration>
+                        <repoToken>${coveralls.token}</repoToken>
                         <jacocoReports>
                             <jacocoReport>${basedir}/target/site/jacoco/jacoco.xml</jacocoReport>
                         </jacocoReports>

@@ -1,7 +1,7 @@
 # This workflow will build a Java project with Maven
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Java CI with Maven
+name: run-tests
 
 on:
   push:
@@ -20,7 +20,21 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: GitHub Action for NPM/Chrome
-      uses: daleobrien/npm-with-chrome-browser-action@v1.0.1
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
+    - name: Setup chrome
+      run: |
+        # Add repos
+        sudo apt-add-repository "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
+        # Remove "deb-src" repos added from apt-add-repository, because it doesn't exist online
+        sudo sed -i s/deb-src.*google.*//g /etc/apt/sources.list
+        # Add apt-keys for checking the packages
+        wget -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+        # Update
+        sudo apt-get update -qq
+        # Install the browsers
+        sudo apt-get install -y google-chrome-stable
+    - name: Run tests
+      run: mvn clean jacoco:prepare-agent test
+    - name: Publish results
+      run: |
+        mvn jacoco:report coveralls:report -Dcoveralls.token=${{secrets.COVERALLS_TOKEN}}
+        bash <(curl -s https://codecov.io/bash)

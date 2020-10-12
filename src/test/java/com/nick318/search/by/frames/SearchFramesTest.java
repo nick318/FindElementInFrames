@@ -19,6 +19,7 @@ import org.openqa.selenium.NoSuchFrameException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,7 +40,7 @@ public class SearchFramesTest {
     @BeforeClass
     public static void beforeClass() {
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+        driver = new ChromeDriver(new ChromeOptions().setHeadless(true));
         searchFactory = new SearchByFramesFactory(driver);
     }
 
